@@ -3,6 +3,7 @@
   :license {:name "MIT"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [compojure "1.5.0"]
+                 [levand/immuconf "0.1.0"]
                  [ring.middleware.logger "0.5.0"]]
   :plugins [[lein-ring "0.9.7"]]
   :jvm-opts ["-Xmx1g"
