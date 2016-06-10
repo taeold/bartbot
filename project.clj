@@ -11,4 +11,7 @@
              "-Dlog4j.configuration=file:resources/log4j.properties"]
   :ring {:port 8080
          :handler bartbot.service/handler}
+  :profiles {:dev
+             {:dependencies
+              [[javax.servlet/servlet-api "2.5"]]}}
   :aliases {"server" ["ring" "server-headless"]})
