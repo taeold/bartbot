@@ -1,1 +1,3 @@
-{}
+{:google
+ {:maps
+  {:host "https://maps.googleapis.com/maps/api"}}}
