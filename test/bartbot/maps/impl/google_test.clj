@@ -1,10 +1,9 @@
 (ns bartbot.maps.impl.google-test
   (:require
     [clojure.test :refer :all]
-    [bartbot.config :refer [config]]
+    [bartbot.config :refer [config-get]]
     [bartbot.maps.impl.google :as google]
     [clj-http.client :as client]
-    [immuconf.config :as immuconf]
     [schema.test]))
 
 (use-fixtures :once schema.test/validate-schemas)
@@ -110,7 +109,7 @@
 
 ;; integration tests
 (def api-key
-  (immuconf/get @config :google :maps :api-key))
+  (config-get :google :maps :api-key))
 (def locations
   [;; somewhere in SF
    {:lat 37.774387 :lon -122.406966}])

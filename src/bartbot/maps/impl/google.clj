@@ -1,14 +1,13 @@
 (ns bartbot.maps.impl.google
   (:require
-    [bartbot.config :refer [config]]
+    [bartbot.config :refer [config-get]]
     [bartbot.maps.protocol :as protocol]
     [bartbot.maps.schema :as map-schema]
     [clj-http.client :as client]
-    [immuconf.config :as immuconf]
     [schema.core :as schema]))
 
 (def ^:private api-host
-  (delay (immuconf/get @config :google :maps :host)))
+  (delay (config-get :google :maps :host)))
 
 (def ^:private endpoints
   {:nearby "%s/place/nearbysearch/json"
