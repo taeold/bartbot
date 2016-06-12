@@ -81,7 +81,7 @@
 
 (deftype GoogleMaps [client-opts]
   protocol/Maps
-  (get-nearby-places [place location]
+  (get-nearby-places [this place location]
     (get-nearby-places* client-opts place location))
-  (get-directions [src dest]
+  (get-directions [this src dest]
     (get-directions* client-opts src dest)))
