@@ -2,6 +2,7 @@
   :url "https://github.com/taeold/bartbot"
   :license {:name "MIT"}
   :dependencies [[org.clojure/clojure "1.8.0"]
+                 [cheshire "5.6.1"]
                  [clj-http "2.2.0"]
                  [compojure "1.5.0"]
                  [levand/immuconf "0.1.0"]
