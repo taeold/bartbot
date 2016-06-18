@@ -52,9 +52,9 @@
          ["wdub" "West Dublin"]
          ["woak" "West Oakland"]]]
     (doseq [[abbrv station] abbrv-station]
-      (testing (str station "=>" abbrv) 
+      (testing (str station "=>" abbrv)
         (is (= abbrv (bart/station->bart-abbrv station))))
-      (testing (str station "=>" abbrv "- case insensitive") 
+      (testing (str station "=>" abbrv "- case insensitive")
         (is (= abbrv (bart/station->bart-abbrv
                        (clojure.string/lower-case station))))
         (is (= abbrv (bart/station->bart-abbrv

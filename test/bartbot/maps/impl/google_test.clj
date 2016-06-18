@@ -93,7 +93,7 @@
                 (fn [api-key src dest]
                   (is (= ::api-key api-key))
                   (is (= "123,123" src))
-                  (is (= "place_id:place") dest)
+                  (is (= "place_id:place" dest))
                   [{:legs
                     [{:distance {:text "X mi" :value 1}
                       :duration {:text "X mins" :value 1}}]}])]
@@ -107,7 +107,6 @@
                                     :location {:lat 1 :lon 2}
                                     :id "place"})))))
 
-;; integration tests
 (def api-key
   (config-get :google :maps :api-key))
 (def locations
