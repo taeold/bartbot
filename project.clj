@@ -11,7 +11,8 @@
                  [log4j/apache-log4j-extras "1.2.17"]
                  [org.slf4j/slf4j-log4j12 "1.7.12"]
                  [prismatic/schema "1.1.1"]
-                 [ring-logger "0.7.6"]]
+                 [ring-logger "0.7.6"]
+                 [ring/ring-json "0.4.0"]]
   :plugins [[lein-ring "0.9.7"]]
   :test-selectors {:default (complement :integration)
                    :integration :integration}
