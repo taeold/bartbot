@@ -11,6 +11,8 @@
                  [prismatic/schema "1.1.1"]
                  [ring.middleware.logger "0.5.0"]]
   :plugins [[lein-ring "0.9.7"]]
+  :test-selectors {:default (complement :integration)
+                   :integration :integration}
   :jvm-opts ["-Xmx1g"
              "-server"
              "-Dlog4j.configuration=file:resources/log4j.properties"]
