@@ -4,9 +4,11 @@
     [bartbot.maps.protocol :as protocol]
     [bartbot.maps.schema :as map-schema]
     [clj-http.client :as client]
+    [clj-http.util :refer [url-encode]]
     [schema.core :as schema]))
 
 (def ^:private api-host (delay (config-get :api :google :maps :host)))
+(def ^:private directions-url (delay (config-get :api :google :maps :dir-url)))
 
 (def ^:private endpoints
   {:nearby "%s/place/nearbysearch/json"
@@ -50,6 +52,11 @@
       "ZERO_RESULTS" []
       (throw (Exception. (str (:status body) ":" (:error_message body)))))))
 
+(defn google-generate-directions-url
+  [src dest]
+  (let [[src dest] (map url-encode [src dest])]
+    (format "%s/%s/%s" @directions-url src dest)))
+
 (schema/defn get-nearby-places* :- [map-schema/Place]
   [{:as opts :keys [api-key]}
    search-key :- schema/Str
@@ -72,6 +79,7 @@
         routes (google-get-directions api-key src-str dest-str)]
     (for [route routes]
       {:source "google"
+       :url (google-generate-directions-url src-str (:name dest))
        ;; since no waypoint is specified, we assume single leg
        :distance {:q (get-in route [:legs 0 :distance :value])
                   :u "meters"}

@@ -14,6 +14,7 @@
 
 (def Route
   {:source schema/Str
+   :url schema/Str
    :distance {:q schema/Num
               :u (schema/enum "meters")}
    :duration {:q schema/Num

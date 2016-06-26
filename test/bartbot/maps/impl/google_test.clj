@@ -72,6 +72,10 @@
       (is (thrown? Exception
                    (google/google-get-directions ::api-key ::origin ::destination))))))
 
+(deftest test-google-generate-directions-url
+  (is (= "https://www.google.com/maps/dir/bart+station/37.64%2C-121.86"
+         (google/google-generate-directions-url "bart station" "37.64,-121.86"))))
+
 (deftest test-get-nearby-places*
   (with-redefs [google/google-get-nearby-places
                 (fn [api-key search-key location]
@@ -98,6 +102,7 @@
                     [{:distance {:text "X mi" :value 1}
                       :duration {:text "X mins" :value 1}}]}])]
     (is (= [{:source "google"
+             :url "https://www.google.com/maps/dir/123%2C123/test-location"
              :distance {:q 1 :u "meters"}
              :duration {:q 1 :u "seconds"}}]
            (google/get-directions* {:api-key ::api-key}
