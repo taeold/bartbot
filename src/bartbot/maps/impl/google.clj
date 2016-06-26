@@ -6,7 +6,7 @@
     [clj-http.client :as client]
     [schema.core :as schema]))
 
-(def ^:private api-host (delay (config-get :google :maps :host)))
+(def ^:private api-host (delay (config-get :api :google :maps :host)))
 
 (def ^:private endpoints
   {:nearby "%s/place/nearbysearch/json"

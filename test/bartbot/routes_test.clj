@@ -6,7 +6,7 @@
 
 (deftest test-service-routes
   (testing "GET /fb/chat"
-    (with-redefs [config (delay {:fb {:messenger {:verify-token :token}}})]
+    (with-redefs [config (delay {:api {:fb {:messenger {:verify-token :token}}}})]
       (testing "fb api token verification succeeds with correct token"
         (is (= {:status 200
                 :headers {}
@@ -26,7 +26,7 @@
                   :params {"hub.challenge" "challenge"
                            "hub.verify_token" :wrong}}))))))
   (testing "POST /fb/chat"
-    (with-redefs [config (delay {:fb {:messenger {:verify-token :token}}})]
+    (with-redefs [config (delay {:api {:fb {:messenger {:verify-token :token}}}})]
       (testing "request is denied with wrong token"
         (is (= {:status 401
                 :headers {}

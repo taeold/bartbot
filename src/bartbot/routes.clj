@@ -7,12 +7,12 @@
   (context "/fb" []
     (GET "/chat" {{challenge "hub.challenge"
                    verify-token "hub.verify_token"} :params}
-      (if (= (config-get :fb :messenger :verify-token) verify-token)
+      (if (= (config-get :api :fb :messenger :verify-token) verify-token)
         {:status 200 :body challenge}
         {:status 401}))
     (POST "/chat" {:as request
                    {verify-token "hub.verify_token"} :params}
-      (if (= (config-get :fb :messenger :verify-token) verify-token)
-        {:status 200
-         :body (str request)}
+      (if (= (config-get :api :fb :messenger :verify-token) verify-token)
+        (let [] {:status 200
+         :body (str request)})
         {:status 401}))))

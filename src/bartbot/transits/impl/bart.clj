@@ -9,7 +9,7 @@
     [clojure.zip :as zip]
     [schema.core :as schema]))
 
-(def ^:private api-host (delay (config-get :bart :host)))
+(def ^:private api-host (delay (config-get :api :bart :host)))
 
 (def ^:private endpoints
   {:etd "%s/etd.aspx"})

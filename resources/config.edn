@@ -1,2 +1,2 @@
-{:google {:maps {:host "https://maps.googleapis.com/maps/api"}}
- :bart {:host "http://api.bart.gov/api"}}
+{:api {:google {:maps {:host "https://maps.googleapis.com/maps/api"}}
+       :bart {:host "http://api.bart.gov/api"}}}

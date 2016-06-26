@@ -108,7 +108,7 @@
                                     :id "place"})))))
 
 (def api-key
-  (config-get :google :maps :api-key))
+  (config-get :api :google :maps :api-key))
 (def locations
   [;; somewhere in SF
    {:lat 37.774387 :lon -122.406966}])
