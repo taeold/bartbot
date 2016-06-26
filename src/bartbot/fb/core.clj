@@ -29,6 +29,8 @@
 (defn handle-fb-chat
   [{:keys [body]
     :as request}]
+  (log/infof "Processing request %s" request)
+  (log/infof "Processing body %s" body)
   (let [{:as messaging
          :keys [sender message]} (-> body :entry first :messaging first)]
     (if-let [location (-> message :attachments first :payload :coordinates)]
