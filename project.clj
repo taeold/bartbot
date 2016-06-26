@@ -8,6 +8,8 @@
                  [clj-http "2.2.0"]
                  [compojure "1.5.0"]
                  [levand/immuconf "0.1.0"]
+                 [log4j/apache-log4j-extras "1.2.17"]
+                 [org.slf4j/slf4j-log4j12 "1.7.12"]
                  [prismatic/schema "1.1.1"]
                  [ring.middleware.logger "0.5.0"]]
   :plugins [[lein-ring "0.9.7"]]
