@@ -104,30 +104,31 @@
                          {:minutes (xml1-> estimate :minutes text)
                           :direction (xml1-> estimate :direction text)})})}))
 
-(schema/defn get-departures* :- transits-schema/Departures
+(schema/defn get-departures* :- (schema/maybe transits-schema/Departures)
   [{:keys [api-key] :as client-opts}
    station :- schema/Str
    opts :- {(schema/optional-key :platform) schema/Str
             (schema/optional-key :direction) schema/Str}]
-  (let [bart-departures (bart-get-real-time-departures api-key station opts)
-        ;; we reformat the data to fit transits-schema/Departure
-        departures (->> (for [etd (:etd bart-departures)]
-                          (for [estimate (:estimate etd)]
-                            {:destination (:destination etd)
-                             :direction (:direction estimate)
-                             :departs {:q (try
-                                            (-> estimate
-                                                :minutes
-                                                Integer/parseInt
-                                                (* 60))
-                                            (catch NumberFormatException _
-                                              ;; estimates could non-number
-                                              ;; e.g. 'LEAVING'
-                                              0))
-                                       :u "seconds"}}))
-                        (apply concat))]
-    {:station (get-in bart-departures [:station :name])
-     :departures (sort-by #(get-in % [:departs :q]) departures)}))
+  (if-let [station (station->bart-abbrv station)]
+    (let [bart-departures (bart-get-real-time-departures api-key station opts)
+          ;; we reformat the data to fit transits-schema/Departure
+          departures (->> (for [etd (:etd bart-departures)]
+                            (for [estimate (:estimate etd)]
+                              {:destination (:destination etd)
+                               :direction (:direction estimate)
+                               :departs {:q (try
+                                              (-> estimate
+                                                  :minutes
+                                                  Integer/parseInt
+                                                  (* 60))
+                                              (catch NumberFormatException _
+                                                ;; estimates could non-number
+                                                ;; e.g. 'LEAVING'
+                                                0))
+                                         :u "seconds"}}))
+                          (apply concat))]
+      {:station (get-in bart-departures [:station :name])
+       :departures (sort-by #(get-in % [:departs :q]) departures)})))
 
 (deftype Bart [client-opts]
   protocol/Transit

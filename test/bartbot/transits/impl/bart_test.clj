@@ -101,17 +101,25 @@
 
 (deftest test-get-departures*
   (with-redefs [bart/bart-get-real-time-departures
-                (fn [& _]
-                  {:station {:name "Richmond" :abbr "RICH"}
-                   :etd [{:destination "Fremont"
-                          :estimate [{:minutes "1" :direction "South"}]}
-                         {:destination "Millbrae"
-                          :estimate [{:minutes "2" :direction "South"}]}]})]
+                (fn [_ orig _]
+                  (cond
+                    (= "rich" orig) {:station {:name "Richmond" :abbr "RICH"}
+                                     :etd [{:destination "Millbrae"
+                                            :estimate [{:minutes "2" :direction "South"}]}]}
+                    (= "civc" orig) {:station {:name "Civic Center" :abbr "CICV"}
+                                     :etd [{:destination "Millbrae"
+                                            :estimate [{:minutes "2" :direction "South"}]}]}))]
     (is (= {:station "Richmond"
             :departures [{:direction "South"
-                          :destination "Fremont"
-                          :departs {:q 60 :u "seconds"}}
-                         {:direction "South"
                           :destination "Millbrae"
                           :departs {:q 120 :u "seconds"}}]}
-           (bart/get-departures* {:api-key ::key} ::station {})))))
+           (bart/get-departures* {:api-key ::key} "Richmond" {})
+           (bart/get-departures* {:api-key ::key} "Richmond station" {})
+           (bart/get-departures* {:api-key ::key} "Richmond BART" {})))
+    (is (= {:station "Civic Center"
+            :departures [{:direction "South"
+                          :destination "Millbrae"
+                          :departs {:q 120 :u "seconds"}}]}
+           (bart/get-departures* {:api-key ::key} "Civic Center" {})
+           (bart/get-departures* {:api-key ::key} "Civic Center Bike Station" {})
+           (bart/get-departures* {:api-key ::key} "Civic Center BART" {})))))
