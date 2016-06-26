@@ -20,6 +20,16 @@
     :keys [departures]} :- bb-schema/BartbotRecommends]
   {:title (format "Departures at %s" (:station departures))
    :subtitle (clojure.string/join "\n"
-               (for [departure (take 4 (:departures departures))]
-                 (format "%s: %.1f minutes" (:destination departure)
-                         (-> departure :departs :q (/ 60) double))))})
+               (for [[dest departures] (group-by :destination
+                                                 (:departures departures))
+                     :let [depart-times (->> departures
+                                             (sort-by (comp :q :departs))
+                                             (map #(-> %
+                                                       :departs
+                                                       :q
+                                                       (/ 60)
+                                                       double)))
+                           departs (->> depart-times
+                                        (map #(format "%.1f" %))
+                                        (clojure.string/join ", "))]]
+                 (format "%s: %s minutes" dest departs)))})
