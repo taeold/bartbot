@@ -1,3 +1,4 @@
 {:api {:google {:maps {:host "https://maps.googleapis.com/maps/api"
                        :dir-url "https://www.google.com/maps/dir"}}
-       :bart {:host "http://api.bart.gov/api"}}}
+       :bart {:host "http://api.bart.gov/api"}
+       :fb {:graph {:host "https://graph.facebook.com/v2.6"}}}}

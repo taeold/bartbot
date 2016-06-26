@@ -1,6 +1,6 @@
 (ns bartbot.service
   (:require
-    [bartbot.routes :refer [service-routes]]
+    [bartbot.fb.routes :refer [fb-routes]]
     [compojure.core :refer [routes]]
     [compojure.handler :refer [api]]
     [compojure.route :refer [not-found]]
@@ -10,8 +10,8 @@
 (def handler
   (api
     (-> (routes
-          service-routes
+          fb-routes
           (not-found "<h1>Page not found</h1>"))
         (logger/wrap-with-logger {:printer :no-color})
-        wrap-json-body
+        (wrap-json-body {:keywords? true})
         wrap-json-response)))

@@ -4,6 +4,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/data.xml "0.0.8"]
                  [org.clojure/data.zip "0.1.2"]
+                 [org.clojure/tools.logging "0.3.1"]
                  [cheshire "5.6.1"]
                  [clj-http "2.2.0"]
                  [compojure "1.5.0"]
