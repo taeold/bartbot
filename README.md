@@ -1,10 +1,14 @@
 # bartbot
 
-TODO
+## TODO
+- Route message would look nicer with google maps static image!
+- Should actually give out recommendation (should I run? go to another station?)
 
 ## Usage
 
-TODO
+```
+lein server
+```
 
 ## License
 
