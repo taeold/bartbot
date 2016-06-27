@@ -50,7 +50,10 @@
                                              recommendation)
                                            (tmpl/station-departures-template
                                              recommendation)]}}}}))
-          {:status 200
+          {:status 202
            :body recommendation})
         {:status 404})
-      {:status 400})))
+      (do
+        (future (send-message {:recipient (:id sender)
+                               :msg {:text "sorry - i think that was invalid"}}))
+        {:status 202}))))
