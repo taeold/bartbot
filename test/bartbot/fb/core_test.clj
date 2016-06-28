@@ -4,7 +4,8 @@
     [clj-http.client :as client]
     [bartbot.config :refer [config]]
     [bartbot.core :as core]
-    [bartbot.fb.core :as fcore]))
+    [bartbot.fb.core :as fcore]
+    [bartbot.fb.templates :as tmpl]))
 
 (deftest test-send-message
   (with-redefs [config (delay {:api {:fb {:graph {:page-access-token ::token}}}})
@@ -19,8 +20,9 @@
 
 (deftest test-handle-fb-chat
   (testing "bad request"
-    (is (= {:status 400}
-           (fcore/handle-fb-chat {:body {:foo :bar}}))))
+    (with-redefs [fcore/send-message (constantly nil)]
+      (is (= {:status 202}
+             (fcore/handle-fb-chat {:body {:foo :bar}})))))
   (testing "no recommendation found"
     (with-redefs [core/get-recommendation (constantly nil)]
       (is (= {:status 404}
@@ -33,7 +35,9 @@
                               {:coordinates
                                {:lat ::lat :lon ::lon}}}]}}]}]}})))))
   (testing "returns recommendation given proper body"
-    (with-redefs [fcore/send-message
+    (with-redefs [tmpl/nearest-station-template (constantly nil)
+                  tmpl/station-departures-template (constantly nil)
+                  fcore/send-message
                   ;; TODO: this should test what msg is being send to fb
                   (constantly nil)
                   core/get-recommendation
@@ -61,5 +65,5 @@
                                  :type "location"
                                  :payload {:coordinates
                                            {:lat ::lat :long ::lon}}}]}}]}]}]
-        (is (= {:status 200 :body {:route ::route :departures ::departures}}
+        (is (= {:status 202 :body {:route ::route :departures ::departures}}
                (fcore/handle-fb-chat {:body ex-fb-request})))))))

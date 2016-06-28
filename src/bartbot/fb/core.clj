@@ -40,16 +40,17 @@
                                                           :maps-impl :google-maps
                                                           :transits-impl :bart}))]
         (do
-          (future
-            (send-message
-              {:recipient (:id sender)
-               :msg {:attachment
-                     {:type "template"
-                      :payload {:template_type "generic"
-                                :elements [(tmpl/nearest-station-template
-                                             recommendation)
-                                           (tmpl/station-departures-template
-                                             recommendation)]}}}}))
+          (let [elm-nearest-station (tmpl/nearest-station-template recommendation)
+                elms-departures (tmpl/station-departures-template recommendation)]
+            (future
+              (send-message
+                {:recipient (:id sender)
+                 :msg {:attachment
+                       {:type "template"
+                        :payload {:template_type "generic"
+                                  ;; performance penalty? Sure, but N < 5
+                                  :elements (concat [elm-nearest-station]
+                                                    elms-departures)}}}})))
           {:status 202
            :body recommendation})
         {:status 404})
